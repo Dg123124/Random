@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WA Property Scout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f5f2; --panel:#ffffff; --ink:#132a2f; --muted:#5d6f72; --line:#dbe2df;
+  --accent:#0a7c86; --accent-ink:#ffffff; --sand:#efe3cb; --sand-ink:#6b4e16;
+  --good:#1d7a4c; --good-bg:#e3f3ea; --warn:#9a5d00; --warn-bg:#fbefd9; --bad:#b0302a; --bad-bg:#f9e3e1;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark; --ground:#0f1a1c; --panel:#162427; --ink:#e4ecea; --muted:#95a8a8; --line:#2a3b3e;
+  --accent:#3fb6c0; --accent-ink:#06282c; --sand:#3a311f; --sand-ink:#ecd6a6;
+  --good:#6fd19e; --good-bg:#17352a; --warn:#f0b35a; --warn-bg:#3a2d17; --bad:#f28a82; --bad-bg:#3d1e1c;}}
+:root[data-theme="dark"]{
+  color-scheme:dark; --ground:#0f1a1c; --panel:#162427; --ink:#e4ecea; --muted:#95a8a8; --line:#2a3b3e;
+  --accent:#3fb6c0; --accent-ink:#06282c; --sand:#3a311f; --sand-ink:#ecd6a6;
+  --good:#6fd19e; --good-bg:#17352a; --warn:#f0b35a; --warn-bg:#3a2d17; --bad:#f28a82; --bad-bg:#3d1e1c;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font:14px/1.5 var(--body)}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+h1{font:700 2.2rem/1 var(--display);letter-spacing:.01em;margin:0;text-transform:uppercase}
+h1 small{display:block;font:500 .85rem/1.4 var(--body);text-transform:none;color:var(--muted);letter-spacing:0;margin-top:6px}
+h2{font:600 1.35rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.03em;margin:0}
+h3{font:600 1.05rem/1.2 var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0}
+.layout{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:24px;margin-top:20px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+aside.panel{position:sticky;top:12px;max-height:calc(100vh - 24px);display:flex;flex-direction:column}
+@media (max-width:900px){aside.panel{position:static;max-height:none}}
+.tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs button{flex:1 1 auto;background:none;border:0;border-bottom:3px solid transparent;padding:10px 8px;font:600 .78rem/1 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.form{overflow:auto;padding:16px;display:grid;gap:12px}
+.field{display:grid;gap:4px}
+.field label{font-size:.78rem;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.field .hint{font-size:.74rem;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:4px;padding:7px 9px;width:100%;font-variant-numeric:tabular-nums}
+input[type=checkbox]{width:auto}
+.checks{display:flex;flex-wrap:wrap;gap:6px}
+.checks label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:99px;padding:4px 10px;font-size:.82rem;color:var(--ink);cursor:pointer}
+.checks input:checked+span{font-weight:700;color:var(--accent)}
+.money{position:relative}.money::before{content:"$";position:absolute;left:9px;top:7px;color:var(--muted)}.money input{padding-left:20px}
+.actions{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:600 .85rem/1 var(--body);border-radius:4px;padding:10px 14px;border:1px solid var(--ink);background:var(--panel);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.status{font-size:.8rem;color:var(--muted)}
+.budget{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.budget div{background:var(--panel);padding:12px 14px}
+.budget span{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.budget b{font:600 1.7rem/1.1 var(--display);font-variant-numeric:tabular-nums}
+.budget em{display:block;font-style:normal;font-size:.75rem;color:var(--muted)}
+.runbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:18px 0 8px}
+.runbar .checks label{background:var(--panel)}
+pre.log{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px;max-height:160px;overflow:auto;font-size:.75rem;margin:0}
+.meta{color:var(--muted);font-size:.82rem;margin:6px 0 12px}
+ol.ranked{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.item>button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:52px 64px 1fr auto;gap:12px;align-items:center;width:100%;padding:12px 14px}
+.item>button:focus-visible{outline:2px solid var(--accent)}
+@media (max-width:620px){.item>button{grid-template-columns:40px 1fr auto}.item .scorecell{display:none}}
+.rank{font:700 2rem/1 var(--display);color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.item:nth-child(-n+3) .rank{color:var(--accent)}
+.scorecell{text-align:center}
+.scorecell b{font:700 1.5rem/1 var(--display);font-variant-numeric:tabular-nums}
+.bar{height:4px;background:var(--line);border-radius:2px;margin-top:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
+.addr{font-weight:600}.facts{color:var(--muted);font-size:.82rem}
+.nums{display:flex;gap:14px;flex-wrap:wrap;font-variant-numeric:tabular-nums;font-size:.82rem;margin-top:2px}
+.nums .neg{color:var(--bad)}.nums .pos{color:var(--good)}
+.pill{font:600 .72rem/1 var(--body);text-transform:uppercase;letter-spacing:.05em;padding:6px 9px;border-radius:99px;white-space:nowrap}
+.v-good{background:var(--good-bg);color:var(--good)}.v-warn{background:var(--warn-bg);color:var(--warn)}.v-bad{background:var(--bad-bg);color:var(--bad)}
+.detail{border-top:1px solid var(--line);padding:14px;display:grid;gap:16px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+table{border-collapse:collapse;width:100%;font-size:.8rem;font-variant-numeric:tabular-nums}
+td,th{padding:4px 6px;border-bottom:1px solid var(--line);text-align:right}
+td:first-child,th:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+.scroll{overflow-x:auto}
+ul.pc{margin:4px 0;padding-left:18px}
+.src{background:var(--sand);color:var(--sand-ink);border-radius:4px;padding:8px 10px;font-size:.8rem}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.single{margin-top:28px}
+.single .form{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));padding:14px}
+.note{font-size:.75rem;color:var(--muted);margin-top:24px}
+a{color:var(--accent)}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .4s ease}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>WA Property Scout<small>Perth &amp; Peel listings ranked against your pre-approval, cash flow and forecast rent.</small></h1>
+    <div class="status" id="saveStatus"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="panel" aria-label="Your profile">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <form class="form" id="profileForm" autocomplete="off"></form>
+      <div class="actions">
+        <button class="btn primary" id="saveBtn" type="button">Save profile</button>
+        <span class="status" id="formStatus">Changes update your budget when saved.</span>
+      </div>
+    </aside>
+
+    <main>
+      <section class="budget" id="budget" aria-label="Your buying power"></section>
+
+      <div class="runbar">
+        <button class="btn primary" id="runBtn" type="button">Scout listings now</button>
+        <button class="btn" id="rerankBtn" type="button">Re-rank saved listings</button>
+        <div class="checks" id="sourceChecks">
+          <label><input type="checkbox" value="inbox" checked><span>Inbox (agent + imports)</span></label>
+          <label><input type="checkbox" value="domain" checked><span>Domain API</span></label>
+          <label><input type="checkbox" value="realestate" checked><span>realestate.com.au</span></label>
+        </div>
+        <span class="status" id="runStatus"></span>
+      </div>
+      <pre class="log" id="log" hidden></pre>
+
+      <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-top:18px">
+        <h2>Your top 20</h2>
+        <span class="status" id="reportLinks"></span>
+      </div>
+      <p class="meta" id="shortlistMeta"></p>
+      <ol class="ranked" id="ranked"></ol>
+
+      <section class="single panel" aria-labelledby="singleTitle">
+        <div style="padding:14px 14px 0"><h3 id="singleTitle">Check one property</h3>
+          <p class="meta" style="margin-bottom:0">Paste a listing URL, or type the details from the ad. Tick "add to inbox" to include it in the next ranking.</p></div>
+        <form class="form" id="singleForm"></form>
+        <div class="actions">
+          <button class="btn primary" type="button" id="analyseBtn">Assess property</button>
+          <label class="status"><input type="checkbox" id="addInbox"> add to inbox</label>
+          <span class="status" id="singleStatus"></span>
+        </div>
+        <div id="singleResult"></div>
+      </section>
+
+      <p class="note">Screening estimates only. Not financial, tax or credit advice. Duty, land tax and income tax use 2025-26/2026-27 WA and federal scales. Check figures with your broker and accountant before making an offer.</p>
+    </main>
+  </div>
+</div>
+
+<script>
+const TYPES = ["house","townhouse","villa","duplex","unit","apartment","land"];
+const SECTIONS = [
+  {key:"preapproval", tab:"Pre-approval", fields:[
+    ["loan_amount","Pre-approved loan","money","Maximum loan on your pre-approval letter"],
+    ["cash_available","Cash available","money","Savings or equity you can use for deposit, duty and costs"],
+    ["cash_buffer","Cash to keep in reserve","money"],
+    ["interest_rate","Interest rate (%)","num"],
+    ["loan_term_years","Loan term (years)","num"],
+    ["repayment_type","Repayments","select",null,[["PI","Principal & interest"],["IO","Interest only"]]],
+    ["interest_only_years","Interest-only years","num"],
+  ]},
+  {key:"income", tab:"Income", fields:[
+    ["applicant1_gross_salary","Your gross salary (yearly)","money"],
+    ["applicant2_gross_salary","Partner's gross salary (yearly)","money","Leave 0 if buying alone"],
+    ["other_taxable_income","Other taxable income (yearly)","money"],
+    ["existing_rental_income_weekly","Rent from other investments (weekly)","money"],
+  ]},
+  {key:"expenses", tab:"Expenses", fields:[
+    ["monthly_living","Living expenses (monthly)","money","Banks use the higher of this and the HEM benchmark"],
+    ["monthly_other_debt_repayments","Other loan repayments (monthly)","money","Car, personal, HECS, BNPL"],
+    ["credit_card_limits","Total credit card limits","money","Assessed at 3.8% of the limit per month"],
+    ["dependants","Dependants","num"],
+  ]},
+  {key:"current_mortgage", tab:"Mortgage", fields:[
+    ["has_mortgage","I have a current mortgage","bool"],
+    ["balance","Loan balance","money"],
+    ["interest_rate","Interest rate (%)","num"],
+    ["monthly_repayment","Monthly repayment","money"],
+    ["property_value","Property value","money"],
+    ["owner_occupied","It's my home (owner-occupied)","bool"],
+  ]},
+  {key:"criteria", tab:"Property", fields:[
+    ["property_types","Property types","types"],
+    ["price_min","Min price","money"],
+    ["price_max","Max price","money","0 = use my maximum from the pre-approval"],
+    ["bedrooms_min","Min bedrooms","num"],["bedrooms_max","Max bedrooms (0 = any)","num"],
+    ["bathrooms_min","Min bathrooms","num"],["car_spaces_min","Min car spaces","num"],
+    ["land_size_min_sqm","Min land (m²)","num"],["land_size_max_sqm","Max land (m², 0 = any)","num"],
+    ["building_size_min_sqm","Min floor area (m²)","num"],
+    ["suburbs_include","Only these suburbs","list","Comma separated. Empty = all of metro Perth and Peel"],
+    ["suburbs_exclude","Never these suburbs","list"],
+    ["top_n","How many to shortlist","num"],
+  ]},
+  {key:"assumptions", tab:"Assumptions", fields:[
+    ["rental_growth_pct","Rent growth (% a year)","num"],["capital_growth_pct","Capital growth (% a year)","num"],
+    ["forecast_years","Forecast years","num"],["vacancy_weeks_per_year","Vacancy (weeks a year)","num"],
+    ["property_management_pct","Management fee (% incl. GST)","num"],["maintenance_pct_of_rent","Maintenance (% of rent)","num"],
+    ["insurance_annual_house","Landlord insurance, house ($/yr)","money"],["council_water_annual_house","Council + water, house ($/yr)","money"],
+    ["strata_annual_default","Strata default ($/yr)","money"],["other_purchase_costs","Conveyancing, inspections etc.","money"],
+    ["depreciation_annual","Depreciation claim ($/yr)","money"],["serviceability_buffer_pct","Bank buffer (%)","num"],
+  ]},
+];
+
+let profile = null, activeTab = "preapproval";
+const $ = id => document.getElementById(id);
+const fmt = v => v == null || isNaN(v) ? "n/a" : (v < 0 ? "-$" : "$") + Math.abs(Math.round(v)).toLocaleString("en-AU");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api = async (path, body) => {
+  const r = await fetch(path, body === undefined ? {} : {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+  return r.json();
+};
+
+function renderTabs(){
+  $("tabs").innerHTML = SECTIONS.map(s => `<button type="button" role="tab" aria-selected="${s.key===activeTab}" data-k="${s.key}">${s.tab}</button>`).join("");
+  $("tabs").querySelectorAll("button").forEach(b => b.onclick = () => { collect(); activeTab = b.dataset.k; renderTabs(); renderForm(); });
+}
+
+function renderForm(){
+  const sec = SECTIONS.find(s => s.key === activeTab), data = profile[sec.key];
+  $("profileForm").innerHTML = sec.fields.map(([k,label,kind,hint,opts]) => {
+    const id = `f-${sec.key}-${k}`, v = data[k];
+    let input;
+    if (kind === "bool") return `<label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="${id}" ${v?"checked":""}> <span>${label}</span></label>`;
+    if (kind === "select") input = `<select id="${id}">${opts.map(([o,t]) => `<option value="${o}" ${o===v?"selected":""}>${t}</option>`).join("")}</select>`;
+    else if (kind === "types") input = `<div class="checks" id="${id}">${TYPES.map(t => `<label><input type="checkbox" value="${t}" ${v.includes(t)?"checked":""}><span>${t}</span></label>`).join("")}</div>`;
+    else if (kind === "list") input = `<input id="${id}" value="${esc((v||[]).join(", "))}" placeholder="e.g. Midland, Gosnells">`;
+    else if (kind === "money") input = `<div class="money"><input id="${id}" inputmode="decimal" value="${v ?? 0}"></div>`;
+    else input = `<input id="${id}" inputmode="decimal" value="${v ?? 0}">`;
+    return `<div class="field"><label for="${id}">${label}</label>${input}${hint?`<span class="hint">${hint}</span>`:""}</div>`;
+  }).join("");
+}
+
+function collect(){
+  const sec = SECTIONS.find(s => s.key === activeTab);
+  for (const [k,,kind] of sec.fields){
+    const el = $(`f-${sec.key}-${k}`); if (!el) continue;
+    let v;
+    if (kind === "bool") v = el.checked;
+    else if (kind === "select") v = el.value;
+    else if (kind === "types") v = [...el.querySelectorAll("input:checked")].map(i => i.value);
+    else if (kind === "list") v = el.value.split(",").map(s => s.trim()).filter(Boolean);
+    else v = parseFloat(String(el.value).replace(/[$,\s]/g,"")) || 0;
+    profile[sec.key][k] = v;
+  }
+}
+
+function renderBudget(b){
+  const s = b.serviceability_no_rent, p = b.purchase_at_max;
+  $("budget").innerHTML = `
+    <div><span>Max purchase price</span><b>${fmt(b.max_purchase_price)}</b><em>Loan ${fmt(p.loan)} at ${(p.lvr*100).toFixed(0)}% LVR</em></div>
+    <div><span>Cash needed at max</span><b>${fmt(p.cash_used)}</b><em>incl. WA transfer duty ${fmt(p.duty)}</em></div>
+    <div><span>Take-home pay</span><b>${fmt(b.net_income_monthly)}</b><em>per month, household</em></div>
+    <div><span>Bank test, before rent</span><b style="color:var(--${s.surplus_monthly>=0?"good":"bad"})">${fmt(s.surplus_monthly)}</b><em>per month at ${s.assessment_rate}% · DTI ${s.dti}x</em></div>`;
+}
+
+const vclass = v => ({"Strong candidate":"v-good","Worth a look":"v-good","Marginal":"v-warn"})[v] || "v-bad";
+
+function detailHtml(a){
+  const cf = a.cash_flow, p = a.purchase, s = a.serviceability, r = a.rent, l = a.listing;
+  const costRows = [["Rent collected",cf.annual_rent_collected],["Management + letting",-(cf.management+cf.letting)],["Maintenance",-cf.maintenance],
+    ["Insurance",-cf.insurance],["Council + water",-cf.council_water],["Strata",-cf.strata],["Land tax (est.)",-cf.land_tax],
+    ["Loan repayments",-cf.repayment_monthly*12],["Before tax",cf.pre_tax_annual],["Tax effect",cf.tax_effect_annual],["After tax",cf.after_tax_annual]];
+  const comp = Object.entries(a.components).map(([k,v]) => `<tr><td>${k.replace("_"," ")}</td><td>${v.toFixed(1)}</td></tr>`).join("");
+  const proj = a.projection.filter(y => y.year===1||y.year%2===0||y.year===a.projection.length)
+    .map(y => `<tr><td>${y.year}</td><td>${fmt(y.weekly_rent)}</td><td>${fmt(y.property_value)}</td><td>${fmt(y.loan_balance)}</td><td>${fmt(y.after_tax_cash_flow)}</td><td>${fmt(y.equity)}</td></tr>`).join("");
+  return `<div class="detail">
+    <div class="src">Rent ${fmt(r.weekly)}/wk (range ${fmt(r.low)} to ${fmt(r.high)}) from ${esc(r.method)}. Confidence ${(r.confidence*100).toFixed(0)}%. ${esc(r.notes)}</div>
+    <div class="cols">
+      <div><h3>Pros</h3><ul class="pc">${a.pros.map(x=>`<li>${esc(x)}</li>`).join("")||"<li>None noted</li>"}</ul>
+           <h3 style="margin-top:10px">Cons</h3><ul class="pc">${a.cons.map(x=>`<li>${esc(x)}</li>`).join("")||"<li>None noted</li>"}</ul></div>
+      <div><h3>Year 1 cash flow</h3><table>${costRows.map(([k,v])=>`<tr><td>${k}</td><td>${fmt(v)}</td></tr>`).join("")}</table></div>
+      <div><h3>Funding</h3><table>
+        <tr><td>Price</td><td>${fmt(p.price)}</td></tr><tr><td>Transfer duty</td><td>${fmt(p.duty)}</td></tr>
+        <tr><td>Other costs</td><td>${fmt(p.other_costs)}</td></tr><tr><td>Cash used</td><td>${fmt(p.cash_used)}</td></tr>
+        <tr><td>Loan (incl. LMI ${fmt(p.lmi)})</td><td>${fmt(p.loan)}</td></tr><tr><td>Bank test surplus</td><td>${fmt(s.surplus_monthly)}/mo</td></tr>
+        <tr><td>Your budget after buying</td><td>${fmt(a.household.monthly_surplus_after)}/mo</td></tr></table>
+        <h3 style="margin-top:10px">Score parts</h3><table>${comp}</table></div>
+    </div>
+    <div class="scroll"><h3>Forecast</h3><table><tr><th>Year</th><th>Rent/wk</th><th>Value</th><th>Loan</th><th>After-tax cash flow</th><th>Equity</th></tr>${proj}</table></div>
+    ${l.url?`<a href="${esc(l.url)}" target="_blank" rel="noopener">Open the listing</a>`:""}
+  </div>`;
+}
+
+function itemHtml(a){
+  const l = a.listing, cf = a.cash_flow;
+  const facts = [l.property_type, `${l.bedrooms ?? "?"} bed`, `${l.bathrooms ?? "?"} bath`, `${l.car_spaces ?? "?"} car`, l.land_size_sqm ? `${Math.round(l.land_size_sqm)} m²` : null, l.price_text].filter(Boolean).join(" · ");
+  return `<li class="item"><button type="button" aria-expanded="false">
+    <span class="rank">${a.rank ?? "–"}</span>
+    <span class="scorecell"><b>${Math.round(a.score)}</b><div class="bar"><i style="width:${a.score}%"></i></div></span>
+    <span><div class="addr">${esc(l.address || "Address withheld")}, ${esc(l.suburb)} ${esc(l.postcode)}</div>
+      <div class="facts">${esc(facts)}</div>
+      <div class="nums"><span>${fmt(l.price)}</span><span>Rent ${fmt(a.rent.weekly)}/wk</span><span>Yield ${cf.gross_yield_pct.toFixed(1)}%</span>
+      <span class="${cf.after_tax_weekly<0?"neg":"pos"}">${fmt(cf.after_tax_weekly)}/wk after tax</span></div></span>
+    <span class="pill ${vclass(a.verdict)}">${esc(a.verdict)}</span></button>
+    <div hidden>${detailHtml(a)}</div></li>`;
+}
+
+function bindItems(root){
+  root.querySelectorAll(".item>button").forEach(b => b.onclick = () => {
+    const d = b.nextElementSibling; d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden));
+  });
+}
+
+async function loadShortlist(){
+  const s = await api("/api/shortlist");
+  if (!s.top.length){
+    $("ranked").innerHTML = `<li class="empty panel">No shortlist yet. Save your profile, then press <b>Scout listings now</b>, or ask the Claude Code agent to run <code>/wa-scout</code>.</li>`;
+    $("shortlistMeta").textContent = ""; return;
+  }
+  const rej = Object.entries(s.rejected_by||{}).map(([k,v]) => `${v} on ${k}`).join(", ");
+  $("shortlistMeta").textContent = `Generated ${s.generated.replace("T"," ")}. ${s.scanned} listings scanned, ${s.matched} matched your criteria${rej ? ` (filtered out: ${rej})` : ""}${s.no_price ? `, ${s.no_price} had no price` : ""}.`;
+  $("ranked").innerHTML = s.top.map(itemHtml).join("");
+  bindItems($("ranked"));
+}
+
+async function save(){
+  collect();
+  $("formStatus").textContent = "Saving…";
+  const res = await api("/api/profile", profile);
+  renderBudget(res.budget);
+  $("formStatus").textContent = "Saved. Re-rank to apply to your shortlist.";
+}
+
+async function poll(){
+  const st = await api("/api/scout/status");
+  $("log").hidden = false; $("log").textContent = st.log.join("\n"); $("log").scrollTop = 1e9;
+  if (st.running){ setTimeout(poll, 1500); return; }
+  $("runBtn").disabled = $("rerankBtn").disabled = false;
+  $("runStatus").textContent = st.error ? `Stopped: ${st.error}` : "Done.";
+  loadShortlist();
+}
+
+async function runScout(fetchNew){
+  await save();
+  const sources = [...$("sourceChecks").querySelectorAll("input:checked")].map(i => i.value);
+  $("runBtn").disabled = $("rerankBtn").disabled = true;
+  $("runStatus").textContent = fetchNew ? "Scouting. This can take a few minutes." : "Re-ranking…";
+  const res = await api("/api/scout", {sources, fetch: fetchNew, refresh_rents: fetchNew});
+  if (res.error){ $("runStatus").textContent = res.error; $("runBtn").disabled = $("rerankBtn").disabled = false; return; }
+  poll();
+}
+
+const SINGLE = [["url","Listing URL","text"],["price_text","Price or price text","text"],["suburb","Suburb","text"],["postcode","Postcode","text"],
+  ["property_type","Type","type"],["bedrooms","Bedrooms","num"],["bathrooms","Bathrooms","num"],["car_spaces","Car spaces","num"],
+  ["land_size_sqm","Land (m²)","num"],["strata_annual","Strata ($/yr)","num"],["current_weekly_rent","Known rent ($/wk)","num"]];
+function renderSingle(){
+  $("singleForm").innerHTML = SINGLE.map(([k,l,kind]) => `<div class="field"><label for="s-${k}">${l}</label>${
+    kind==="type" ? `<select id="s-${k}">${TYPES.map(t=>`<option>${t}</option>`).join("")}</select>` : `<input id="s-${k}" ${kind==="num"?'inputmode="decimal"':""}>`}</div>`).join("");
+}
+async function analyse(){
+  const body = {extra:{}};
+  for (const [k,,kind] of SINGLE){
+    const v = $(`s-${k}`).value.trim(); if (!v) continue;
+    if (k === "current_weekly_rent") body.extra.current_weekly_rent = parseFloat(v);
+    else body[k] = kind === "num" ? parseFloat(v) : v;
+  }
+  if (!body.address && body.url) body.address = "";
+  $("singleStatus").textContent = "Assessing…";
+  const a = await api("/api/analyse", body);
+  if (a.error){ $("singleStatus").textContent = a.error; $("singleResult").innerHTML = ""; return; }
+  $("singleStatus").textContent = "";
+  $("singleResult").innerHTML = `<ol class="ranked" style="padding:0 14px 14px">${itemHtml(a)}</ol>`;
+  bindItems($("singleResult"));
+  $("singleResult").querySelector(".item>button").click();
+  if ($("addInbox").checked){ await api("/api/listings", {...body, address: body.address || body.url || "Manual entry"}); $("singleStatus").textContent = "Added to inbox for the next ranking."; }
+}
+
+(async function init(){
+  profile = await api("/api/profile");
+  renderTabs(); renderForm(); renderSingle();
+  renderBudget(await api("/api/budget"));
+  loadShortlist();
+  $("saveBtn").onclick = save;
+  $("runBtn").onclick = () => runScout(true);
+  $("rerankBtn").onclick = () => runScout(false);
+  $("analyseBtn").onclick = analyse;
+  const st = await api("/api/scout/status"); if (st.running) poll();
+})();
+</script>
+</body>
+</html>

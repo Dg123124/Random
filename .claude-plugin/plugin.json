@@ -1,0 +1,6 @@
+{
+  "name": "wa-property-scout",
+  "description": "Scour metropolitan WA property listings, forecast rent from free public data, and rank a top 20 against your pre-approval, income, expenses and current mortgage.",
+  "version": "0.1.0",
+  "keywords": ["real-estate", "western-australia", "perth", "investing", "rental-yield", "realestate.com.au"]
+}

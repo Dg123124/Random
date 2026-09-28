@@ -1,0 +1,16 @@
+{
+  "source": "REIWA Perth metro market data",
+  "source_url": "https://reiwa.com.au/the-wa-market/perth-metro/",
+  "as_of": "2026-08",
+  "notes": "Metro medians used only when no suburb data or comparable rentals exist. Update these when REIWA publishes new figures (or run the refresh-rents skill).",
+  "metro": {
+    "house": {"median_price": 960000, "median_weekly_rent": 750},
+    "unit": {"median_price": 690000, "median_weekly_rent": 700}
+  },
+  "typical_bedrooms": {"house": 4, "unit": 2},
+  "bedroom_multipliers": {
+    "house": {"1": 0.62, "2": 0.78, "3": 0.9, "4": 1.0, "5": 1.12, "6": 1.22},
+    "unit": {"1": 0.78, "2": 1.0, "3": 1.2, "4": 1.35}
+  },
+  "price_elasticity": 0.45
+}

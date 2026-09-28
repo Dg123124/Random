@@ -1,0 +1,85 @@
+{
+  "preapproval": {
+    "loan_amount": 600000,
+    "cash_available": 120000,
+    "cash_buffer": 15000,
+    "interest_rate": 6.09,
+    "loan_term_years": 30,
+    "repayment_type": "PI",
+    "interest_only_years": 0,
+    "first_home_buyer": false
+  },
+  "income": {
+    "applicant1_gross_salary": 145000,
+    "applicant2_gross_salary": 85000,
+    "other_taxable_income": 0,
+    "existing_rental_income_weekly": 0
+  },
+  "expenses": {
+    "monthly_living": 4800,
+    "monthly_other_debt_repayments": 0,
+    "credit_card_limits": 10000,
+    "dependants": 0
+  },
+  "current_mortgage": {
+    "has_mortgage": true,
+    "balance": 350000,
+    "interest_rate": 6.19,
+    "monthly_repayment": 2600,
+    "property_value": 750000,
+    "owner_occupied": true
+  },
+  "criteria": {
+    "property_types": [
+      "house",
+      "townhouse",
+      "villa"
+    ],
+    "price_min": 0,
+    "price_max": 0,
+    "bedrooms_min": 3,
+    "bedrooms_max": 0,
+    "bathrooms_min": 1,
+    "car_spaces_min": 1,
+    "land_size_min_sqm": 0,
+    "land_size_max_sqm": 0,
+    "building_size_min_sqm": 0,
+    "suburbs_include": [],
+    "suburbs_exclude": [],
+    "metro_postcodes": [
+      [
+        6000,
+        6199
+      ],
+      [
+        6207,
+        6214
+      ]
+    ],
+    "max_listings_to_scan": 400,
+    "top_n": 20
+  },
+  "assumptions": {
+    "rental_growth_pct": 4.0,
+    "capital_growth_pct": 5.0,
+    "forecast_years": 10,
+    "vacancy_weeks_per_year": 2,
+    "property_management_pct": 8.25,
+    "letting_fee_weeks": 1,
+    "maintenance_pct_of_rent": 5.0,
+    "insurance_annual_house": 1900,
+    "insurance_annual_unit": 700,
+    "council_water_annual_house": 2700,
+    "council_water_annual_unit": 2100,
+    "strata_annual_default": 3600,
+    "land_value_share_house": 0.55,
+    "land_value_share_unit": 0.2,
+    "other_purchase_costs": 3500,
+    "depreciation_annual": 0,
+    "serviceability_buffer_pct": 3.0,
+    "rental_income_shading_pct": 80,
+    "hem_monthly_single": 2400,
+    "hem_monthly_couple": 3400,
+    "hem_per_dependant": 450
+  }
+}

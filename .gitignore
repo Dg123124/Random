@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+# Personal data: never commit your finances or scraped data
+profile.json
+data/cache/
+data/inbox/
+data/listings.json
+reports/*
+!reports/.gitkeep

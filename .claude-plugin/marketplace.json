@@ -1,0 +1,14 @@
+{
+  "name": "wa-property-scout-marketplace",
+  "description": "WA Property Scout plugin for Claude Code",
+  "owner": {"name": "WA Property Scout"},
+  "plugins": [
+    {
+      "name": "wa-property-scout",
+      "description": "Rank metropolitan WA listings against your finances with forecast rent.",
+      "version": "0.1.0",
+      "source": "./",
+      "category": "data"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Suburb medians from free public sources (REIWA suburb profiles, SQM Research, realestate.com.au / Domain suburb profiles).
+# property_type is house or unit. median_weekly_rent and median_price may be blank. Add rows by hand or with the refresh-rents skill.
+suburb,postcode,property_type,median_weekly_rent,median_price,source,as_of
+Mandurah,6210,house,540,,REIWA (3 months to Apr 2026),2026-04
+Applecross,6153,unit,875,,REIWA (FY 2025-26),2026-06
