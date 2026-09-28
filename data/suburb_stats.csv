@@ -3,3 +3,8 @@
 suburb,postcode,property_type,median_weekly_rent,median_price,source,as_of
 Mandurah,6210,house,540,,REIWA (3 months to Apr 2026),2026-04
 Applecross,6153,unit,875,,REIWA (FY 2025-26),2026-06
+Bassendean,6054,house,750,,"HtAG/REIWA/YIP via web search (range $680-800)",2026-07
+Maddington,6109,house,650,,"HtAG/REIWA/YIP via web search (range $625-680)",2026-07
+Morley,6062,house,730,967000,"HtAG/REIWA/YIP via web search (range $680-770)",2026-07
+High Wycombe,6057,house,730,,"CoreLogic via web search (range $600-750)",2026-08
+Beechboro,6063,house,700,,"REIWA/YIP/HtAG via web search (range $680-735)",2026-07

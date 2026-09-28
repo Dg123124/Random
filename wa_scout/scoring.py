@@ -107,9 +107,11 @@ def assess(
     comp["serviceability"] = _lerp(service.surplus_monthly, 0, 1500, WEIGHTS["serviceability"])
     if not service.passes:
         cons.append(
-            f"Likely fails bank serviceability (surplus ${service.surplus_monthly:,.0f}/mo at "
-            f"{service.assessment_rate:.2f}%, DTI {service.dti:.1f}x)"
+            f"Tight on bank servicing (estimated shortfall ${-service.surplus_monthly:,.0f}/mo at "
+            f"{service.assessment_rate:.2f}%); confirm with your lender"
         )
+    if service.dti >= 6:
+        cons.append(f"Debt-to-income {service.dti:.1f}x: many lenders limit lending at 6x or more")
     elif service.surplus_monthly > 1000:
         pros.append(f"Comfortable serviceability headroom (${service.surplus_monthly:,.0f}/mo)")
 
@@ -166,7 +168,7 @@ def assess(
     if rent.confidence < 0.4:
         cons.append("Rent is a metro-level estimate; check local rentals before relying on it")
     if not service.passes:
-        score = min(score, 35.0)
+        score = min(score, 50.0)
     if not purchase.within_preapproval:
         score = min(score, 20.0)
     score = round(score, 1)
@@ -174,7 +176,7 @@ def assess(
     if not purchase.within_preapproval:
         verdict = "Over budget"
     elif not service.passes:
-        verdict = "Fails serviceability"
+        verdict = "Tight on servicing"
     elif score >= 70:
         verdict = "Strong candidate"
     elif score >= 55:

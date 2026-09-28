@@ -386,7 +386,7 @@ def serviceability(profile: dict, new_loan: float, new_weekly_rent: float) -> Se
         other_commitments=round(other, 2),
         surplus_monthly=round(surplus, 2),
         dti=round(dti, 2),
-        passes=surplus >= 0 and dti < 6.0,
+        passes=surplus >= 0,
     )
 
 

@@ -96,7 +96,7 @@ This re-ranks the saved listings plus everything in `data/inbox/` and writes
 Show the user the markdown table the command prints (ranks 1-20), then:
 
 - The three strongest candidates and why (cash flow, yield, serviceability, land).
-- Any listing whose verdict is "Fails serviceability" or "Over budget" but is close,
+- Any listing whose verdict is "Tight on servicing" or "Over budget" but is close,
   with what would change it (e.g. a lower offer, more cash, interest-only).
 - Which rent estimates are low confidence (method says "Perth metro median").
 - Where the full report is (`reports/...html`) and that `python -m wa_scout serve`

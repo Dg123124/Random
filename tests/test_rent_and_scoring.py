@@ -31,7 +31,7 @@ class RentTests(unittest.TestCase):
 
     def test_suburb_median_then_baseline(self):
         stats = {("midland", "house"): {"median_weekly_rent": "650", "source": "test", "as_of": "2026-08"}}
-        self.assertEqual(estimate_rent(house(bathrooms=1), stats, []).weekly, 650)
+        self.assertEqual(estimate_rent(house(bedrooms=3, bathrooms=1), stats, []).weekly, 650)
         fallback = estimate_rent(house(), {}, [])
         self.assertLess(fallback.confidence, 0.5)
         self.assertGreater(fallback.weekly, 300)

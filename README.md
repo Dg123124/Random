@@ -111,7 +111,7 @@ Rent then grows at your assumed rate (default 4% a year) in the forecast.
 | Features | 10 | Land size, extra bedrooms/bathrooms, parking, days on market |
 
 The total is scaled by rent confidence. A property that fails the bank test is
-capped at 35 ("Fails serviceability"); one you can't fund is capped at 20 ("Over
+capped at 50 ("Tight on servicing"), since your lender has the final say; one you can't fund is capped at 20 ("Over
 budget"). Verdicts: 70+ Strong candidate, 55+ Worth a look, 40+ Marginal, below
 40 Pass. Weights are in `wa_scout/scoring.py`.
 
