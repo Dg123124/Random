@@ -1,10 +1,80 @@
 # Suburb medians from free public sources (REIWA suburb profiles, SQM Research, realestate.com.au / Domain suburb profiles).
 # property_type is house or unit. median_weekly_rent and median_price may be blank. Add rows by hand or with the refresh-rents skill.
 suburb,postcode,property_type,median_weekly_rent,median_price,source,as_of
-Mandurah,6210,house,540,,REIWA (3 months to Apr 2026),2026-04
+Alexander Heights,6064,house,740,944000,REIWA suburb stats (listing page),2026-09
 Applecross,6153,unit,875,,REIWA (FY 2025-26),2026-06
-Bassendean,6054,house,750,,"HtAG/REIWA/YIP via web search (range $680-800)",2026-07
-Maddington,6109,house,650,,"HtAG/REIWA/YIP via web search (range $625-680)",2026-07
-Morley,6062,house,730,967000,"HtAG/REIWA/YIP via web search (range $680-770)",2026-07
-High Wycombe,6057,house,730,,"CoreLogic via web search (range $600-750)",2026-08
-Beechboro,6063,house,700,,"REIWA/YIP/HtAG via web search (range $680-735)",2026-07
+Ascot,6104,house,1100,1356250,REIWA suburb stats (listing page),2026-09
+Balcatta,6021,house,780,1002333,REIWA suburb stats (listing page),2026-09
+Balga,6061,house,700,780000,REIWA suburb stats (listing page),2026-09
+Bassendean,6054,house,800,1025000,REIWA suburb stats (listing page),2026-09
+Bayswater,6053,house,825,1201000,REIWA suburb stats (listing page),2026-09
+Beckenham,6107,house,800,850000,REIWA suburb stats (listing page),2026-09
+Bedford,6052,house,780,1250000,REIWA suburb stats (listing page),2026-09
+Beechboro,6063,house,735,879000,REIWA suburb stats (listing page),2026-09
+Beeliar,6164,house,780,1070000,REIWA suburb stats (listing page),2026-09
+Bellevue,6056,house,570,775000,REIWA suburb stats (listing page),2026-09
+Belmont,6104,house,780,929000,REIWA suburb stats (listing page),2026-09
+Bentley,6102,house,800,850000,REIWA suburb stats (listing page),2026-09
+Canning Vale,6155,house,850,1180000,REIWA suburb stats (listing page),2026-09
+Cannington,6107,house,750,800000,REIWA suburb stats (listing page),2026-09
+Carlisle,6101,house,800,994000,REIWA suburb stats (listing page),2026-09
+Caversham,6055,house,830,923750,REIWA suburb stats (listing page),2026-09
+Cloverdale,6105,house,725,890000,REIWA suburb stats (listing page),2026-09
+Cockburn Central,6164,house,720,930000,REIWA suburb stats (listing page),2026-09
+Coolbellup,6163,house,740,958375,REIWA suburb stats (listing page),2026-09
+Dianella,6059,house,850,1222000,REIWA suburb stats (listing page),2026-09
+East Cannington,6107,house,750,893000,REIWA suburb stats (listing page),2026-09
+East Victoria Park,6101,house,850,1210000,REIWA suburb stats (listing page),2026-09
+Eden Hill,6054,house,770,910000,REIWA suburb stats (listing page),2026-09
+Ellenbrook,6069,house,750,850000,REIWA suburb stats (listing page),2026-09
+Embleton,6062,house,827,1100000,REIWA suburb stats (listing page),2026-09
+Forrestfield,6058,house,722,855000,REIWA suburb stats (listing page),2026-09
+Girrawheen,6064,house,650,805000,REIWA suburb stats (listing page),2026-09
+Gosnells,6110,house,655,760000,REIWA suburb stats (listing page),2026-09
+Greenmount,6056,house,940,880000,REIWA suburb stats (listing page),2026-09
+Hamilton Hill,6163,house,745,1038500,REIWA suburb stats (listing page),2026-09
+Hammond Park,6164,house,800,950000,REIWA suburb stats (listing page),2026-09
+Hazelmere,6055,house,875,1082500,REIWA suburb stats (listing page),2026-09
+High Wycombe,6057,house,730,,CoreLogic via web search (range $600-750),2026-08
+Huntingdale,6110,house,780,820000,REIWA suburb stats (listing page),2026-09
+Innaloo,6018,house,882,1076750,REIWA suburb stats (listing page),2026-09
+Jandakot,6164,house,875,1335000,REIWA suburb stats (listing page),2026-09
+Jane Brook,6056,house,825,1005000,REIWA suburb stats (listing page),2026-09
+Joondalup,6027,house,700,1013000,REIWA suburb stats (listing page),2026-09
+Kalamunda,6076,house,895,1245000,REIWA suburb stats (listing page),2026-09
+Kenwick,6107,house,670,800000,REIWA suburb stats (listing page),2026-09
+Kewdale,6105,house,850,998000,REIWA suburb stats (listing page),2026-09
+Kingsley,6026,house,925,1280000,REIWA suburb stats (listing page),2026-09
+Koondoola,6064,house,680,802500,REIWA suburb stats (listing page),2026-09
+Lake Coogee,6166,house,850,1163000,REIWA suburb stats (listing page),2026-09
+Landsdale,6065,house,900,1190000,REIWA suburb stats (listing page),2026-09
+Leeming,6149,house,950,1482500,REIWA suburb stats (listing page),2026-09
+Lynwood,6147,house,720,895000,REIWA suburb stats (listing page),2026-09
+Maddington,6109,house,700,767550,REIWA suburb stats (listing page),2026-09
+Madeley,6065,house,882,1165000,REIWA suburb stats (listing page),2026-09
+Mandurah,6210,house,540,,REIWA (3 months to Apr 2026),2026-04
+Marangaroo,6064,house,795,950000,REIWA suburb stats (listing page),2026-09
+Midland,6056,house,685,710000,REIWA suburb stats (listing page),2026-09
+Midvale,6056,house,750,800000,REIWA suburb stats (listing page),2026-09
+Morley,6062,house,772,967000,REIWA suburb stats (listing page),2026-09
+Nollamara,6061,house,750,845000,REIWA suburb stats (listing page),2026-09
+Osborne Park,6017,house,755,987500,REIWA suburb stats (listing page),2026-09
+Padbury,6025,house,750,1262606,REIWA suburb stats (listing page),2026-09
+Parkwood,6147,house,787,1015500,REIWA suburb stats (listing page),2026-09
+Queens Park,6107,house,790,872500,REIWA suburb stats (listing page),2026-09
+Rivervale,6103,house,780,1087000,REIWA suburb stats (listing page),2026-09
+South Guildford,6055,house,792,1000000,REIWA suburb stats (listing page),2026-09
+Spearwood,6163,house,750,980000,REIWA suburb stats (listing page),2026-09
+Stratton,6056,house,730,750000,REIWA suburb stats (listing page),2026-09
+Success,6164,house,805,995000,REIWA suburb stats (listing page),2026-09
+Swan View,6056,house,700,812500,REIWA suburb stats (listing page),2026-09
+Thornlie,6108,house,750,870000,REIWA suburb stats (listing page),2026-09
+Viveash,6056,house,750,890000,REIWA suburb stats (listing page),2026-09
+Wandi,6167,house,790,935000,REIWA suburb stats (listing page),2026-09
+Wanneroo,6065,house,770,910000,REIWA suburb stats (listing page),2026-09
+Warwick,6024,house,900,1100000,REIWA suburb stats (listing page),2026-09
+Westminster,6061,house,750,810000,REIWA suburb stats (listing page),2026-09
+Willagee,6156,house,810,1150000,REIWA suburb stats (listing page),2026-09
+Wilson,6107,house,815,1112500,REIWA suburb stats (listing page),2026-09
+Woodbridge,6056,house,885,955000,REIWA suburb stats (listing page),2026-09
+Woodvale,6026,house,900,1360000,REIWA suburb stats (listing page),2026-09
