@@ -69,29 +69,40 @@ that runs `/wa-scout` each morning.
 
 ## Where the listings come from
 
-realestate.com.au has no public API and blocks most automated requests, so the
-tool uses several routes and merges the results (duplicates are combined by address):
+The tool merges several sources (duplicates are combined by address):
 
-1. **Inbox** (`data/inbox/*.json|csv`): listings the agent found through web
+1. **REIWA** (reiwa.com.au, recommended): WA's own portal. The scout scans each
+   suburb's house listings, then opens the ones that pass your filters to read
+   land size, listed date, whether it is under offer, the ad text, map location
+   (for distance to the CBD) and REIWA's suburb median rent and price. It also
+   reads current rental listings in each suburb as rent comparables. With no
+   suburbs chosen it scans about 80 established metro suburbs
+   (`DEFAULT_REIWA_SUBURBS` in `wa_scout/scout.py`).
+2. **Inbox** (`data/inbox/*.json|csv`): listings the agent found through web
    search, listings you add in the web app, or a CSV you export yourself. Columns:
    `address, suburb, postcode, property_type, price_text, bedrooms, bathrooms,
    car_spaces, land_size_sqm, building_size_sqm, strata_annual, url, description`.
-2. **Domain API** (recommended, official and free tier): register at
+3. **Domain API** (official, free tier): register at
    <https://developer.domain.com.au>, then `export DOMAIN_API_KEY=...`.
-3. **realestate.com.au** direct: tries a normal request, then a real browser if
+4. **realestate.com.au** direct: tries a normal request, then a real browser if
    Playwright is installed (`pip install playwright && playwright install chromium`).
-   It reads a few pages, waits between requests and caches for 12 hours. Please
-   keep it to personal research and respect the site's terms of use.
+   It usually blocks automated requests.
+
+Requests wait between calls (`WA_SCOUT_DELAY`, default 2 seconds) and are cached
+for 12 to 24 hours. Keep it to personal research and respect each site's terms.
+
+Set `max_km_to_cbd` in the Property tab (or `profile.json`) to limit distance from
+the Perth CBD. About 25 km is roughly a 35 minute drive outside peak hour.
 
 ## How rent is forecast
 
 Best source wins, and each estimate shows its method and a confidence level:
 
 1. The ad says it is leased ("currently leased at $620 pw").
-2. Three or more comparable rentals in the same suburb (`data/rental_comps.json`,
-   filled by the scout from Domain / realestate.com.au rental listings).
-3. The suburb's median rent (`data/suburb_stats.csv`, filled by `/refresh-rents`
-   from REIWA, SQM Research and portal suburb profiles), adjusted for bedrooms,
+2. Three or more comparable rentals in the same suburb with the same bedroom count
+   (`data/rental_comps.json`, filled by the scout from REIWA rental listings).
+3. The suburb's median house rent (`data/suburb_stats.csv`, filled automatically
+   from REIWA during a scan, or by `/refresh-rents`), adjusted for bedrooms,
    bathrooms and parking.
 4. Perth metro medians (REIWA, August 2026: houses $750/wk at a $960k median, units
    $700/wk at $690k), scaled by bedrooms and price. Low confidence and flagged.

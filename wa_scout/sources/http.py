@@ -5,6 +5,8 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -17,8 +19,9 @@ USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/128.0 Safari/537.36"
 )
-MIN_INTERVAL_SECONDS = 4.0
+MIN_INTERVAL_SECONDS = float(os.environ.get("WA_SCOUT_DELAY", "2.0"))
 _last_request = 0.0
+_rate_lock = threading.Lock()
 
 
 class FetchError(RuntimeError):
@@ -44,9 +47,12 @@ def fetch(
     if cache_hours and cached.exists() and time.time() - cached.stat().st_mtime < cache_hours * 3600:
         return cached.read_text(encoding="utf-8")
 
-    wait = MIN_INTERVAL_SECONDS - (time.time() - _last_request)
-    if wait > 0:
-        time.sleep(wait)
+    # Space out request *starts* (thread safe), so a few can be in flight at once.
+    with _rate_lock:
+        wait = MIN_INTERVAL_SECONDS - (time.time() - _last_request)
+        if wait > 0:
+            time.sleep(wait)
+        _last_request = time.time()
     req_headers = {
         "User-Agent": USER_AGENT,
         "Accept": "text/html,application/json;q=0.9,*/*;q=0.8",
@@ -69,8 +75,6 @@ def fetch(
         raise FetchError(f"{url} returned HTTP {exc.code}") from exc
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         raise FetchError(f"{url} failed: {exc}") from exc
-    finally:
-        _last_request = time.time()
 
     if cache_hours:
         CACHE_DIR.mkdir(parents=True, exist_ok=True)

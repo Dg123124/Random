@@ -75,6 +75,9 @@ DEFAULT_PROFILE: dict = {
         # Leave empty to search the whole Perth metro area.
         "suburbs_include": [],
         "suburbs_exclude": [],
+        # Straight-line km from the Perth CBD (0 = no limit). ~25 km is roughly a
+        # 35 minute drive outside peak hour.
+        "max_km_to_cbd": 0,
         # Postcode ranges treated as "metropolitan WA" (Perth + Peel).
         "metro_postcodes": [[6000, 6199], [6207, 6214]],
         "max_listings_to_scan": 400,

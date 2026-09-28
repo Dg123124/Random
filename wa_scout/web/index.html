@@ -121,6 +121,7 @@ a{color:var(--accent)}
         <button class="btn" id="rerankBtn" type="button">Re-rank saved listings</button>
         <div class="checks" id="sourceChecks">
           <label><input type="checkbox" value="inbox" checked><span>Inbox (agent + imports)</span></label>
+          <label><input type="checkbox" value="reiwa" checked><span>REIWA</span></label>
           <label><input type="checkbox" value="domain" checked><span>Domain API</span></label>
           <label><input type="checkbox" value="realestate" checked><span>realestate.com.au</span></label>
         </div>
@@ -192,7 +193,8 @@ const SECTIONS = [
     ["bathrooms_min","Min bathrooms","num"],["car_spaces_min","Min car spaces","num"],
     ["land_size_min_sqm","Min land (m²)","num"],["land_size_max_sqm","Max land (m², 0 = any)","num"],
     ["building_size_min_sqm","Min floor area (m²)","num"],
-    ["suburbs_include","Only these suburbs","list","Comma separated. Empty = all of metro Perth and Peel"],
+    ["max_km_to_cbd","Max distance from Perth CBD (km)","num","Straight line. About 25 km is a 35 minute drive off-peak. 0 = any"],
+    ["suburbs_include","Only these suburbs","list","Comma separated. Empty = scan about 80 metro suburbs on REIWA"],
     ["suburbs_exclude","Never these suburbs","list"],
     ["top_n","How many to shortlist","num"],
   ]},

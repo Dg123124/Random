@@ -193,6 +193,12 @@ def matches_criteria(listing: Listing, criteria: dict, price_cap: float | None =
     check_max(listing.land_size_sqm, criteria.get("land_size_max_sqm"), "land m²")
     check_min(listing.building_size_sqm, criteria.get("building_size_min_sqm"), "building m²")
 
+    km = listing.extra.get("km_to_cbd")
+    if criteria.get("max_km_to_cbd") and km is not None and km > criteria["max_km_to_cbd"]:
+        reasons.append(f"distance {km} km > {criteria['max_km_to_cbd']} km")
+    if listing.extra.get("status") in {"sold", "under offer"}:
+        reasons.append(f"status {listing.extra['status']}")
+
     if listing.price is not None:
         check_min(listing.price, criteria.get("price_min"), "price")
         cap = criteria.get("price_max") or price_cap

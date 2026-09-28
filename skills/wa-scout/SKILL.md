@@ -27,10 +27,11 @@ Run:
 python -m wa_scout scout --pages 5
 ```
 
-This pulls from `data/inbox/`, the Domain API (if `DOMAIN_API_KEY` is set) and
-realestate.com.au (plain HTTP, then Playwright if installed). realestate.com.au
-often blocks automated requests; if the log shows it was blocked or it returned
-fewer than ~60 matching listings, continue with step 3.
+This pulls from `data/inbox/`, REIWA (suburb by suburb, with detail pages for
+land size, status and location), the Domain API (if `DOMAIN_API_KEY` is set) and
+realestate.com.au (plain HTTP, then Playwright if installed). REIWA normally
+provides plenty; realestate.com.au often blocks automated requests. If the log
+shows REIWA was blocked or fewer than ~40 listings matched, continue with step 3.
 
 ## 3. Agent search (web search + fetch)
 

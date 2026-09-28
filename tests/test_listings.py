@@ -84,3 +84,31 @@ class ExtractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReiwaTests(unittest.TestCase):
+    CARD = (
+        '<article class="p-card -Residential"><a href="/2-example-place-maddington-5039548/" class="p-card__details">'
+        '<p class="heading h4 sk-item">From $739,000</p><h2 class="-regular p-details__add sk-item ">2 Example Place, Maddington</h2>'
+        '<ul><li><svg><path/></svg><span class="u-grey-dark">3</span></li><li><span class="u-grey-dark">2</span></li>'
+        '<li><span class="u-grey-dark">1</span></li><li><div class="grey-pill sk-hide">New</div><div class="grey-pill sk-hide">House</div></li></ul>'
+        '<span>Added 4 days ago</span></a></article>'
+    )
+
+    def test_parse_card(self):
+        from wa_scout.sources import reiwa
+
+        (l,) = reiwa.parse_cards(self.CARD)
+        self.assertEqual((l.address, l.suburb, l.price, l.bedrooms, l.bathrooms, l.car_spaces, l.property_type, l.days_on_market),
+                         ("2 Example Place", "Maddington", 739_000, 3, 2, 1, "house", 4))
+        self.assertTrue(l.url.endswith("-5039548/"))
+
+    def test_listing_data_and_distance(self):
+        import html as h
+
+        from wa_scout.sources import reiwa
+
+        data = {"data": {"ListingNo": 1, "LandsizeHtml": "491m<sup>2</sup>", "IsUnderOffer": True}}
+        page = "<div data-props='" + h.escape(json.dumps(data), quote=False).replace("'", "&#39;") + "'></div>"
+        self.assertEqual(reiwa.listing_data(page)["LandsizeHtml"], "491m<sup>2</sup>")
+        self.assertAlmostEqual(reiwa.distance_km(-32.0458, 116.0088), 17.4, delta=0.3)
