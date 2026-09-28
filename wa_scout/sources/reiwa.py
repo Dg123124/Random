@@ -118,6 +118,45 @@ def distance_km(lat: float, lon: float, origin=PERTH_CBD) -> float:
     return 2 * r * math.asin(math.sqrt(a))
 
 
+_LAND_TEXT = re.compile(r"(\d[\d,]{1,5})\s*(?:sqm|m²|m2|square met(?:re|er)s)\s*(?:\(approx\.?\)\s*)?(?:survey[- ]strata\s+|green[- ]title\s+|corner\s+|elevated\s+|level\s+|fully fenced\s+)*(?:block|lot|land|site|allotment|parcel)", re.I)
+_LAND_TEXT2 = re.compile(r"(?:block|lot|land)\s*(?:size|area)?\s*[:\-]?\s*(?:of\s*)?(?:approx\.?\s*)?(\d[\d,]{1,5})\s*(?:sqm|m²|m2)", re.I)
+_MONEY_PERIOD = r"\$\s?([\d,]+(?:\.\d+)?)\s*(?:per|p|/|a)?\s*(quarter|qtr|q\b|annum|year|yr|pa\b|p\.a\.|month)"
+
+
+def _annual(amount: str, period: str) -> float:
+    value = float(amount.replace(",", ""))
+    period = period.lower()
+    if period.startswith(("q",)):
+        return value * 4
+    if period.startswith("month"):
+        return value * 12
+    return value
+
+
+def read_costs_from_text(listing: Listing, text: str) -> None:
+    """Fill land size, strata levies and council/water rates from the ad text when stated."""
+    if not listing.land_size_sqm:
+        m = _LAND_TEXT.search(text) or _LAND_TEXT2.search(text)
+        if m:
+            value = float(m.group(1).replace(",", ""))
+            if 80 <= value <= 20000:
+                listing.land_size_sqm = value
+                listing.extra["land_from_text"] = True
+    m = re.search(r"strata(?:\s+(?:fees?|levies|levy))?[^$\n]{0,25}" + _MONEY_PERIOD, text, re.I)
+    if m:
+        listing.strata_annual = _annual(m.group(1), m.group(2))
+    elif re.search(r"no strata(?: fees| levies| levy)?|zero strata|strata[- ]free", text, re.I):
+        listing.strata_annual = 0.0
+    council = re.search(r"council(?:\s+rates)?[^$\n]{0,20}" + _MONEY_PERIOD, text, re.I)
+    water = re.search(r"water(?:\s+rates)?[^$\n]{0,20}" + _MONEY_PERIOD, text, re.I)
+    if council:
+        total = _annual(council.group(1), council.group(2))
+        if water:
+            total += _annual(water.group(1), water.group(2))
+        if 500 <= total <= 10000:
+            listing.council_annual = total
+
+
 def listing_data(page: str) -> dict:
     """The JSON REIWA embeds in the listing page (data-props on the action buttons)."""
     import json
@@ -153,6 +192,7 @@ def enrich(listing: Listing) -> Listing:
         listing.extra["description"] = _text(d.get("Description") or "")[:3000]
         listing.extra["status"] = "sold" if d.get("IsSold") else "under offer" if d.get("IsUnderOffer") else ""
         listing.extra["features"] = [f.get("Line1Text") for f in d.get("Features") or []]
+        read_costs_from_text(listing, f"{listing.headline} {listing.extra['description']}")
         stats = d.get("SuburbStatistics") or {}
         if stats.get("StatsAvailable"):
             listing.extra["suburb_stats"] = {

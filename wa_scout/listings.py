@@ -190,6 +190,8 @@ def matches_criteria(listing: Listing, criteria: dict, price_cap: float | None =
     check_min(listing.bathrooms, criteria.get("bathrooms_min"), "bathrooms")
     check_min(listing.car_spaces, criteria.get("car_spaces_min"), "car spaces")
     check_min(listing.land_size_sqm, criteria.get("land_size_min_sqm"), "land m²")
+    if criteria.get("land_size_min_sqm") and listing.land_size_sqm is None:
+        reasons.append("land size unknown")
     check_max(listing.land_size_sqm, criteria.get("land_size_max_sqm"), "land m²")
     check_min(listing.building_size_sqm, criteria.get("building_size_min_sqm"), "building m²")
 

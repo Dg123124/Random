@@ -75,21 +75,26 @@ def assess(
         return None
     max_price = max_price or finance.max_purchase_price(profile)
     rent = estimate_rent(listing, suburb_stats, comps, baseline)
+    pros: list[str] = []
+    cons: list[str] = []
     purchase = finance.structure_purchase(listing.price, profile)
+    strata = listing.strata_annual
+    if strata is None and "/" in (listing.address or ""):
+        # Unit-style address with no stated levies: assume it is strata titled.
+        strata = float(profile["assumptions"]["strata_annual_default"])
+        cons.append(f"Strata levies not stated; assumed ${strata:,.0f}/yr")
     cf = finance.property_cash_flow(
         listing.price, rent.weekly, purchase.loan, profile, listing.property_type,
-        listing.strata_annual, listing.council_annual,
+        strata, listing.council_annual,
     )
     service = finance.serviceability(profile, purchase.loan, rent.weekly)
     household = finance.household_position(profile, cf)
     projection = finance.forecast(
         listing.price, rent.weekly, purchase.loan, purchase.cash_used, profile,
-        listing.property_type, listing.strata_annual,
+        listing.property_type, strata,
     )
     median = suburb_median_price(listing, suburb_stats)
     crit = profile["criteria"]
-    pros: list[str] = []
-    cons: list[str] = []
 
     comp = {}
     weekly_cf = cf.after_tax_weekly
